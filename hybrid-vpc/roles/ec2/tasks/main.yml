@@ -3,10 +3,11 @@
 - name: Create EC2 Instance
   ec2:
     key_name: aviaws2018
-    group: "{{ main_sg_id }}"
+    group_id: "{{ main_sg_id }}"
     instance_type: t2.micro
     image: ami-02e98f78
     region: "{{ aws_region }}"
+    instance_tags: {"Name":"Webserver"}
     wait: yes
     wait_timeout: 500
     volumes:
@@ -15,5 +16,6 @@
         volume_size: 10
     vpc_subnet_id: "{{ public_subnet_id }}"
     assign_public_ip: yes
+    exact_count: 1
     count_tag:
       Name: webserver
