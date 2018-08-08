@@ -4,3 +4,4 @@
       - vars.yml
   roles:
     - vpc
+    - ec2
