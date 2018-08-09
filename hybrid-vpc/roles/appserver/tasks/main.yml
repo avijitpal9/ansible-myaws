@@ -1,0 +1,9 @@
+---
+# appserver role tasks definations
+
+- name: Install Java
+  yum: name=java state=installed
+
+- name: Install Tomcat
+  yum: name=tomcat state=installed
+  notify: Restart Tomcat

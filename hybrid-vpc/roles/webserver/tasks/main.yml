@@ -1,0 +1,6 @@
+---
+# webserver role tasks defination
+
+- name: Install HTTPD
+  yum: name=httpd state=installed
+  notify: Restart HTTPD

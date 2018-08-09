@@ -1,0 +1,5 @@
+---
+# Webserver role handlers defination
+
+- name: Restart HTTPD
+  service: name=httpd state=restarted

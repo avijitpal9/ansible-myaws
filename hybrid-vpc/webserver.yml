@@ -1,0 +1,10 @@
+---
+# webserver role main control file
+- hosts: webserver
+  user: centos
+  become: true
+  connection: ssh
+  gather_facts: true
+  roles:
+      - webserver
+      - appserver
