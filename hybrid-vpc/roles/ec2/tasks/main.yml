@@ -19,3 +19,19 @@
     exact_count: 1
     count_tag:
       Name: webserver
+  register: my_ec2
+
+#- debug: var=my_ec2
+
+- name:  Set EC2 ID in variable
+  set_fact:
+    ec2_id: "{{ my_ec2.instance_ids[0] }}"
+
+- debug: var=ec2_id
+
+- name: Assign EIP to EC2
+  ec2_eip:
+    device_id: "{{ ec2_id }}"
+    public_ip: "{{ my_eip }}"
+    region: "{{ aws_region }}"
+    allow_reassociation: yes

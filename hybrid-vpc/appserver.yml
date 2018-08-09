@@ -6,4 +6,4 @@
   connection: ssh
   gather_facts: true
   roles:
-      - webserver
+      - appserver

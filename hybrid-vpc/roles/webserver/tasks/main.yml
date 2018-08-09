@@ -1,6 +1,60 @@
 ---
 # webserver role tasks defination
 
+- name: Set SeLinux Permissive
+  shell: setenforce 0
+
 - name: Install HTTPD
   yum: name=httpd state=installed
+  notify: Restart HTTPD
+
+- name: Install mod_ssl
+  yum: name=mod_ssl state=installed
+  notify: Restart HTTPD
+
+- name: Create SSL Directory
+  file:
+    path: /etc/httpd/ssl
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create VirtualHost DirectoryRoot
+  file:
+    path: /var/www/companynews/html
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+#-  name: Create VirtualHost DirectoryRoot
+#  file:
+#    path: /var/www/companynews/html
+#    state: directory
+#    owner: root
+#    group: root
+#    mode: 0755
+
+
+- name: Copy VirtualHost Config Template
+  template:
+    src: custom.conf
+    dest: /etc/httpd/conf.d/custom.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart HTTPD
+
+- name: Copy SSL Files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/httpd/ssl/
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+      - companynews.avijitpal9.com.key
+      - companynews.avijitpal9.com.crt
+      - companynews.avijitpal9.com-fullchain.crt
   notify: Restart HTTPD

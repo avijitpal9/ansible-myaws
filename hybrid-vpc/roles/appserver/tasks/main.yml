@@ -1,9 +1,18 @@
 ---
 # appserver role tasks definations
 
+- name: Set SeLinux Permassive
+  shell: setenforce 0
+
 - name: Install Java
   yum: name=java state=installed
 
 - name: Install Tomcat
   yum: name=tomcat state=installed
+  notify: Restart Tomcat
+
+- name: Install WAR
+  get_url:
+      url:  https://s3.amazonaws.com/mybucket.avijitpal9.com/companyNews.war
+      dest: "{{ warRemotePath }}/{{ warName }}"
   notify: Restart Tomcat
