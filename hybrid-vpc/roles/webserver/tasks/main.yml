@@ -28,19 +28,27 @@
     group: root
     mode: 0755
 
+#- name: Copy Static Content
+#  get_url:
+#      url:  https://s3.amazonaws.com/mybucket.avijitpal9.com/static.zip
+#      dest: /var/www/companynews/html
+#  notify: Restart HTTPD
+#
+
+#- name: Unzip Static Content
+#  shell: |
+#    unzip static.zip
+#    rm -f static.zip
+#  args:
+#      chdir: /var/www/companynews/html
+#
+
 - name: Copy Static Content
-  get_url:
-      url:  https://s3.amazonaws.com/mybucket.avijitpal9.com/static.zip
-      dest: /var/www/companynews/html
+  unarchive:
+    src: https://s3.amazonaws.com/mybucket.avijitpal9.com/static.zip
+    dest: /var/www/companynews/html
+    remote_src: yes
   notify: Restart HTTPD
-
-- name: Unzip Static Content
-  shell: |
-    unzip static.zip
-    rm -f static.zip
-  args:
-      chdir: /var/www/companynews/html
-
 
 #-  name: Create VirtualHost DirectoryRoot
 #  file:
