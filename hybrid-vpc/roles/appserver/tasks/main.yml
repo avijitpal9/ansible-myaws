@@ -1,7 +1,7 @@
 ---
 # appserver role tasks definations
 
-- name: Set SeLinux Permassive
+- name: Set SeLinux Permissive
   shell: setenforce 0
 
 - name: Install Java

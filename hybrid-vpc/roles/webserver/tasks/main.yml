@@ -28,6 +28,20 @@
     group: root
     mode: 0755
 
+- name: Copy Static Content
+  get_url:
+      url:  https://s3.amazonaws.com/mybucket.avijitpal9.com/static.zip
+      dest: /var/www/companynews/html
+  notify: Restart HTTPD
+
+- name: Unzip Static Content
+  shell: |
+    unzip static.zip
+    rm -f static.zip
+  args:
+      chdir: /var/www/companynews/html
+
+
 #-  name: Create VirtualHost DirectoryRoot
 #  file:
 #    path: /var/www/companynews/html
@@ -39,7 +53,7 @@
 
 - name: Copy VirtualHost Config Template
   template:
-    src: custom.conf
+    src: custom.conf.j2
     dest: /etc/httpd/conf.d/custom.conf
     owner: root
     group: root

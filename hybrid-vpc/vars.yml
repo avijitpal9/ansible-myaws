@@ -39,4 +39,4 @@ private_subnet_2_cidr: "10.0.12.0/24"
 my_eip: "34.236.119.205"
 
 # Backend Address
-my_backends: "34.236.119.205"
+my_backends: "127.0.0.1"
