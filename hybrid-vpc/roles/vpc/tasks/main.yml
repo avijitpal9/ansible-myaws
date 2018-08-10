@@ -163,6 +163,10 @@
         from_port: "80"
         to_port: "80"
         cidr_ip: "{{ cidr_ip }}"
+      - proto: "tcp"
+        from_port: "443"
+        to_port: "443"
+        cidr_ip: "{{ cidr_ip }}"
   register: my_main_sg
 
 - name: Set Main SG ID

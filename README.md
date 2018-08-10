@@ -1,6 +1,9 @@
 # ANSIBLE-MYAWS REPO
 Ansible repository for AWS Provisioning and Deployment.
 
+## Prerequisite
+Clone the repo on local system. Install the below packages on the
+
 ## Instruction
 The hybrid-vpc module contains Ansible AWS Provisioning and deployment playbooks for hybrid vpc model.
 
