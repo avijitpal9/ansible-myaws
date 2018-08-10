@@ -28,7 +28,7 @@ Execute the ansible playbooks in the order defined below,
 * ansible-playbook webserver.yml
 * ansible-playbook appserver.yml
 
-# Expected Outcome
+## Expected Outcome
 The website is available over Elastic Public IP (DNS If Any).
 
 https://ElasticIP
