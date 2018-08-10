@@ -91,17 +91,17 @@
 - name: Create NAT Gateway
   ec2_vpc_nat_gateway:
     state: present
-    subnet_id: {{ public_subnet_id }}
+    subnet_id: "{{ public_subnet_id }}"
     wait: yes
-    region: {{ aws_region }}
-    aws_access_key:   "{{ aws_access_key }}"
-    aws_secret_key:   "{{ aws_secret_key }}"
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
     if_exist_do_not_create: true
   register: my_nat_gateway
 
 - name: Set Nat Gateway ID in variable
   set_fact:
-    nat_gateway_id: "{{ my_nat_gateway.stdout }}"
+    nat_gateway_id: "{{ my_nat_gateway.nat_gateway_id }}"
 
 
 - pause: seconds=5
@@ -186,3 +186,8 @@
         from_port: "8080"
         to_port: "8080"
         group_id: "{{ main_sg_id }}"
+    register: my_private_sg
+
+- name: Set Private SG ID
+  set_fact:
+    private_sg_id: "{{ my_private_sg.group_id }}"

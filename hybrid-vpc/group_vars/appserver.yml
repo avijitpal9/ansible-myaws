@@ -1,2 +1,2 @@
 ---
-ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q 34.236.119.205"'
+ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q {{ my_eip }}"'

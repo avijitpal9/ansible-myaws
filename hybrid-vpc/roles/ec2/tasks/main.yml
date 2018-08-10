@@ -1,6 +1,6 @@
 ---  # roles/ec2/tasks/main.yml
 
-- name: Create EC2 Instance
+- name: Create Webserver Instance
   ec2:
     key_name: aviaws2018
     group_id: "{{ main_sg_id }}"
@@ -11,7 +11,7 @@
     wait: yes
     wait_timeout: 500
     volumes:
-      - device_name: /dev/xvda
+      - device_name: /dev/sda1
         volume_type: gp2
         volume_size: 10
     vpc_subnet_id: "{{ public_subnet_id }}"
@@ -19,13 +19,13 @@
     exact_count: 1
     count_tag:
       Name: webserver
-  register: my_ec2
+  register: my_web_ec2
 
-#- debug: var=my_ec2
+#- debug: var=my_web_ec2
 
 - name:  Set EC2 ID in variable
   set_fact:
-    ec2_id: "{{ my_ec2.instance_ids[0] }}"
+    ec2_id: "{{ my_web_ec2.instance_ids[0] }}"
 
 - debug: var=ec2_id
 
@@ -35,3 +35,24 @@
     public_ip: "{{ my_eip }}"
     region: "{{ aws_region }}"
     allow_reassociation: yes
+
+- name: Create Appserver Instance
+  ec2:
+    key_name: aviaws2018
+    group_id: "{{ private_sg_id }}"
+    instance_type: t2.micro
+    image: ami-02e98f78
+    region: "{{ aws_region }}"
+    instance_tags: {"Name":"Appserver"}
+    wait: yes
+    wait_timeout: 500
+    volumes:
+      - device_name: /dev/sda1
+        volume_type: gp2
+        volume_size: 10
+    vpc_subnet_id: "{{ private_subnet_id }}"
+    private_ip: "{{ app_private_ip }}"
+    exact_count: 1
+    count_tag:
+      Name: appserver
+  register: my_app_ec2

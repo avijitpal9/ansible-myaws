@@ -1,9 +1,5 @@
 ---
 
-############################
-# Used in parts 1, 2 and 3 #
-############################
-
 # AWS Credentials
 #aws_access_key: "THISISMYAWSACCESSKEY"
 #aws_secret_key: "ThisIsMyAwSSecretKey"
@@ -20,23 +16,16 @@ cidr_ip:  "0.0.0.0/0"
 # Subnets
 public_subnet_1_cidr:  "10.0.1.0/24"
 
-############################
-# Used in parts 2 and 3    #
-############################
-
 # Subnets
 private_subnet_1_cidr: "10.0.2.0/24"
 
-############################
-# Used in part 3 only      #
-############################
-
-# Subnets
-public_subnet_2_cidr:  "10.0.11.0/24"
-private_subnet_2_cidr: "10.0.12.0/24"
-
-# Elastic IP
-my_eip: "34.236.119.205"
+# AppServer Private IP
+app_private_ip: "10.0.2.150"
 
 # Backend Address
-my_backends: "127.0.0.1"
+my_backends: "{{ app_private_ip }}"
+
+
+# Elastic IP
+# Put your own Elastic IP associated with your AWS Account.
+my_eip: "34.236.119.205"
