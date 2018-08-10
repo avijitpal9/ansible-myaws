@@ -5,4 +5,4 @@ localhost ansible_connection=local
 34.236.119.205
 
 [appserver]
-34.236.119.205
+10.0.2.147

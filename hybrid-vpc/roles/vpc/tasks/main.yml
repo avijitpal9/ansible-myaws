@@ -69,23 +69,12 @@
     igw_id:           "{{ my_vpc_igw.gateway_id }}"
 
 
-# Creating AWS Elastic IP.
-- name: Setup AWS CLI (1/3)
-  shell: >
-    aws configure set aws_access_key_id "{{ aws_access_key }}"
-
-- name: Setup AWS CLI (2/3)
-  shell: >
-    aws configure set aws_secret_access_key "{{ aws_secret_key }}"
-
-- name: Setup AWS CLI (3/3)
-  shell: >
-    aws configure set region {{ aws_region }}
-
 # Creating Elastic IP
 #- name: Create Elastic IP
-#  shell: >
-#      aws ec2 allocate-address --domain vpc --query AllocationId | tr -d '"'
+#  ec2_eip:
+#    state: present
+#    aws_access_key:   "{{ aws_access_key }}"
+#    aws_secret_key:   "{{ aws_secret_key }}"
 #  register: eip
 #
 #- debug: var=eip
@@ -95,22 +84,35 @@
 #    my_elastic_ip: "{{ eip.stdout }}"
 #
 
+
+# Creating the NAT Gateway.
+# We create NAT Gateway in public subnet.
+
+- name: Create NAT Gateway
+  ec2_vpc_nat_gateway:
+    state: present
+    subnet_id: {{ public_subnet_id }}
+    wait: yes
+    region: {{ aws_region }}
+    aws_access_key:   "{{ aws_access_key }}"
+    aws_secret_key:   "{{ aws_secret_key }}"
+    if_exist_do_not_create: true
+  register: my_nat_gateway
+
+- name: Set Nat Gateway ID in variable
+  set_fact:
+    nat_gateway_id: "{{ my_nat_gateway.stdout }}"
+
+
 - pause: seconds=5
 
 
-# Now we set up the Route Tables.
+# Set up the Route Tables.
 # We will have one RT for the public subnet,
 # and one for the private subnet.
-# You can see that the Route Table for the private subnet
-# will redirect default destinations to the NAT Gateway
-# and the Route Table for the public subnet will use the
+# Private RT will redirect default destinations to the NAT Gateway
+# and the RT for the public subnet will use the
 # Internet Gateway.
-#
-# We don't see it here, but the Route Tables will also contain
-# a route for resources inside the VPC, so that if we need
-# to reach an internal resource, we don't go to the Internet
-# Gateway or the NAT Gateway
-
 
 - name: Set up public subnet route table
   ec2_vpc_route_table:
@@ -136,8 +138,11 @@
       Name: "Private"
     subnets:
       - "{{ private_subnet_id }}"
+    routes:
+      - dest: "0.0.0.0/0"
+        gateway_id: "{{ nat_gateway_id }}"
 
-# Finally, let's create the Security Groups.
+# Creating the Security Groups.
 # We will create two : one to attach to public instances,
 # and one to attach to private instances.
 
@@ -176,4 +181,8 @@
       - proto: "tcp"
         from_port: "22"
         to_port: "22"
+        group_id: "{{ main_sg_id }}"
+      - proto: "tcp"
+        from_port: "8080"
+        to_port: "8080"
         group_id: "{{ main_sg_id }}"

@@ -1,6 +1,6 @@
 ---
 # webserver role main control file
-- hosts: webserver
+- hosts: appserver
   user: centos
   become: true
   connection: ssh

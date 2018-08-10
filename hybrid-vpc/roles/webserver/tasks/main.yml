@@ -43,6 +43,12 @@
 #      chdir: /var/www/companynews/html
 #
 
+- name: Copy Index File
+  copy:
+      src: index.html
+      dest: /var/www/companynews/html
+  notify: Restart HTTPD
+
 - name: Copy Static Content
   unarchive:
     src: https://s3.amazonaws.com/mybucket.avijitpal9.com/static.zip
