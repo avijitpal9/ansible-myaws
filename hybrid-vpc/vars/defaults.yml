@@ -24,8 +24,3 @@ app_private_ip: "10.0.2.150"
 
 # Backend Address
 my_backends: "{{ app_private_ip }}"
-
-
-# Elastic IP
-# Put your own Elastic IP associated with your AWS Account.
-my_eip: "34.236.119.205"

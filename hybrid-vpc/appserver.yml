@@ -5,5 +5,8 @@
   become: true
   connection: ssh
   gather_facts: true
+  vars_files:
+      - vars/vars.yml
   roles:
+      - commons
       - appserver

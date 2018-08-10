@@ -1,9 +1,6 @@
 ---
 # appserver role tasks definations
 
-- name: Set SeLinux Permissive
-  shell: setenforce 0
-
 - name: Install Java
   yum: name=java state=installed
 

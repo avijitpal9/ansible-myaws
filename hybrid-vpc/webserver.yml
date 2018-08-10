@@ -6,6 +6,7 @@
   connection: ssh
   gather_facts: true
   vars_files:
-      - vars.yml
+      - vars/defaults.yml
   roles:
+      - commons
       - webserver

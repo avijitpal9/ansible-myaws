@@ -186,7 +186,7 @@
         from_port: "8080"
         to_port: "8080"
         group_id: "{{ main_sg_id }}"
-    register: my_private_sg
+  register: my_private_sg
 
 - name: Set Private SG ID
   set_fact:

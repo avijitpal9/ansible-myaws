@@ -1,0 +1,13 @@
+---
+# Commoms role defination for all EC2 instances
+
+
+- name: Set SeLinux Permissive
+  shell: setenforce 0
+
+- name: Install common packages
+  yum: name={{ item }} state=installed
+  with_items:
+      - vim
+      - unzip
+      - wget

@@ -1,9 +1,6 @@
 ---
 # webserver role tasks defination
 
-- name: Set SeLinux Permissive
-  shell: setenforce 0
-
 - name: Install HTTPD
   yum: name=httpd state=installed
   notify: Restart HTTPD

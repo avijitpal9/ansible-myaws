@@ -1,0 +1,5 @@
+---
+
+# Elastic IP
+# Put your own Elastic IP associated with your AWS Account.
+my_eip: "34.236.119.205"
