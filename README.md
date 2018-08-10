@@ -11,7 +11,7 @@ Install the below python modules,
 * boto3
 
 ## Instruction
-The hybrid-vpc module contains Ansible AWS Provisioning and deployment playbooks for hybrid vpc model.
+The hybrid-vpc module contains Ansible AWS Provisioning and deployment playbooks for public-private subnet vpc model.
 
 All the Default configuration are defined in vars/defaults.yml file.
 The only mandatory parameter thats needs to be updated is my_eip defined
