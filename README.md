@@ -31,4 +31,4 @@ Execute the ansible playbooks in the order defined below,
 # Expected Outcome
 The website is available over Elastic Public IP (DNS If Any).
 
-https://<Elastic IP>
+https://ElasticIP
